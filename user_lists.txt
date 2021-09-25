@@ -1,0 +1,14 @@
+admin
+semangatbung100%
+
+yudiwidiawan
+passwordku2021
+
+asepdarwa
+passwordasep2021
+
+db setting:
+
+db_commerce_jcc
+yudi_jcc_go_2021
+PasswordKu2021
