@@ -14,7 +14,7 @@ Saya menggunakan tema e-commerce dengan sekemampuan saya mengerjakannya. Saya me
 
 Untuk dokumentasi API sendiri, saya menggunakan Swagger. Dokumentasi dapat diakses melalui :
 
-https://still-bayou-29365.herokuapp.com/swagger/index.html(https://still-bayou-29365.herokuapp.com/swagger/index.html)
+https://still-bayou-29365.herokuapp.com/swagger/index.html
 
 Untuk url project saya menggunakan command heroku create sehingga tidak custom.
 
