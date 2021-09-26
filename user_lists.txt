@@ -1,3 +1,6 @@
+Dokumentasi API :
+https://still-bayou-29365.herokuapp.com/swagger/index.html
+
 admin
 semangatbung100%
 

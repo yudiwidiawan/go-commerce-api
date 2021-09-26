@@ -50,7 +50,7 @@ type ReturnSimpleUser struct {
 // LoginUser godoc
 // @Summary Login as as user.
 // @Description Logging in to get jwt token to access admin or user api by roles.
-// @Tags user
+// @Tags user, public, admin
 // @Param Body body LoginUserInput true "the body to login a user"
 // @Produce json
 // @Success 200 {object} map[string]interface{}
@@ -115,7 +115,7 @@ func FindUsers(c *gin.Context) {
 // CreateUser godoc
 // @Summary Create/Register a user.
 // @Description Creating/registering a user from public access.
-// @Tags user
+// @Tags user, public, admin
 // @Param Body body CreateUserInput true "the body to create a user"
 // @Produce json
 // @Success 200 {object} ReturnSimpleUser
