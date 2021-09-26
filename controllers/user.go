@@ -14,41 +14,47 @@ import (
 )
 
 type LoginUserInput struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
+	Username string `json:"username" binding:"required" example:"username123"`
+	Password string `json:"password" binding:"required" example:"password123!"`
+} // @name LoginUserInput
+
 type CreateUserInput struct {
-	gorm.Model
-	Username    string `json:"username" binding:"required"`
-	Password    string `json:"password" binding:"required"`
-	FirstName   string `json:"first_name" binding:"required"`
-	LastName    string `json:"last_name" binding:"required"`
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phone_number"`
-	Gender      string `json:"gender"`
-	ProfilePic  string `json:"profile_pic"`
-}
+	Username    string `json:"username" binding:"required" example:"username123"`
+	Password    string `json:"password" binding:"required" example:"password123!"`
+	FirstName   string `json:"first_name" binding:"required" example:"John"`
+	LastName    string `json:"last_name" binding:"required" example:"Asep"`
+	Email       string `json:"email" example:"johnasep@mail.com"`
+	PhoneNumber string `json:"phone_number" example:"08812314555"`
+	Gender      string `json:"gender" example:"L"`
+	ProfilePic  string `json:"profile_pic" example:"https://usr.co.id/img.jpg"`
+} // @name CreateUserInput
 
 type UpdateUserInput struct {
-	Username    string `json:"username" binding:"required"`
-	Password    string `json:"password" binding:"required"`
-	FirstName   string `json:"first_name" binding:"required"`
-	LastName    string `json:"last_name" binding:"required"`
-	Email       string `json:"email" binding:"required"`
-	PhoneNumber string `json:"phone_number"`
-	Gender      string `json:"gender"`
-	ProfilePic  string `json:"profile_pic"`
-}
+	Username    string `json:"username" binding:"required" example:"username123"`
+	Password    string `json:"password" binding:"required" example:"password123!"`
+	FirstName   string `json:"first_name" binding:"required" example:"John"`
+	LastName    string `json:"last_name" binding:"required" example:"Asep"`
+	Email       string `json:"email" example:"johnasep@mail.com"`
+	PhoneNumber string `json:"phone_number" example:"08812314555"`
+	Gender      string `json:"gender" example:"L"`
+	ProfilePic  string `json:"profile_pic" example:"https://usr.co.id/img.jpg"`
+} // @name UpdateUserInput
 
 type ReturnSimpleUser struct {
 	Username  string `json:"username"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Email     string `json:"email"`
-}
+} // @name ReturnSimpleUser
 
-// LOGIN /login
-// Login user
+// LoginUser godoc
+// @Summary Login as as user.
+// @Description Logging in to get jwt token to access admin or user api by roles.
+// @Tags user
+// @Param Body body LoginUserInput true "the body to login a user"
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/login [post]
 func LoginUser(c *gin.Context) {
 
 	var input LoginUserInput
@@ -89,8 +95,15 @@ func LoginUser(c *gin.Context) {
 
 }
 
-// GET /users
-// Get all users
+// FindUsers godoc
+// @Summary Get all user.
+// @Description Get a list of user registered in the system.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/admin/users [get]
 func FindUsers(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var users []models.Commerce_User
@@ -99,8 +112,14 @@ func FindUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": users})
 }
 
-// POST /users
-// Create new user
+// CreateUser godoc
+// @Summary Create/Register a user.
+// @Description Creating/registering a user from public access.
+// @Tags user
+// @Param Body body CreateUserInput true "the body to create a user"
+// @Produce json
+// @Success 200 {object} ReturnSimpleUser
+// @Router /api/register [post]
 func CreateUser(c *gin.Context) {
 	// Validate input
 	var input CreateUserInput
@@ -138,8 +157,16 @@ func CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": userLimited})
 }
 
-// GET /users/:user_id
-// Find a user
+// FindUser godoc
+// @Summary Get one user.
+// @Description Get a user by its id.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @Param user_id path string true "The user id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/admin/users/:user_id [get]
 func FindUser(c *gin.Context) { // Get model if exist
 	var user models.Commerce_User
 
@@ -152,8 +179,15 @@ func FindUser(c *gin.Context) { // Get model if exist
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
-// GET /details
-// Get Self User Detail
+// SelfDetailUser godoc
+// @Summary Get detail user.
+// @Description Get a user its own detail.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/user/details [get]
 func SelfDetailUser(c *gin.Context) { // Get model if exist
 	var user models.Commerce_User
 	user_id, err := token.ExtractTokenID(c)
@@ -166,8 +200,15 @@ func SelfDetailUser(c *gin.Context) { // Get model if exist
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
-// PATCH /update
-// Update self user
+// UpdateSelfUser godoc
+// @Summary Update user data.
+// @Description Update user its own data.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/user/update [get]
 func UpdateSelfUser(c *gin.Context) {
 	user_id, err := token.ExtractTokenID(c)
 	db := c.MustGet("db").(*gorm.DB)
@@ -209,8 +250,17 @@ func UpdateSelfUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
-// PATCH /users/:id
-// Update a user
+// UpdateUser godoc
+// @Summary Update one user.
+// @Description Update a user by its id.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @Param user_id path string true "The user id"
+// @Param Body body UpdateUserInput true "the body to update a user"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/admin/users/:user_id [patch]
 func UpdateUser(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
@@ -252,8 +302,16 @@ func UpdateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
-// DELETE /users/:id
-// Delete a user
+// DeleteUser godoc
+// @Summary Delete one user.
+// @Description Delete a user by its id.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @Param user_id path string true "The user id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/admin/users/:user_id [delete]
 func DeleteUser(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)

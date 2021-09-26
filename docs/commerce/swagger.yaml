@@ -1,0 +1,284 @@
+definitions:
+  CreateUserInput:
+    properties:
+      email:
+        example: johnasep@mail.com
+        type: string
+      first_name:
+        example: John
+        type: string
+      gender:
+        example: L
+        type: string
+      last_name:
+        example: Asep
+        type: string
+      password:
+        example: password123!
+        type: string
+      phone_number:
+        example: "08812314555"
+        type: string
+      profile_pic:
+        example: https://usr.co.id/img.jpg
+        type: string
+      username:
+        example: username123
+        type: string
+    required:
+    - first_name
+    - last_name
+    - password
+    - username
+    type: object
+  LoginUserInput:
+    properties:
+      password:
+        example: password123!
+        type: string
+      username:
+        example: username123
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  ReturnSimpleUser:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      username:
+        type: string
+    type: object
+  UpdateUserInput:
+    properties:
+      email:
+        example: johnasep@mail.com
+        type: string
+      first_name:
+        example: John
+        type: string
+      gender:
+        example: L
+        type: string
+      last_name:
+        example: Asep
+        type: string
+      password:
+        example: password123!
+        type: string
+      phone_number:
+        example: "08812314555"
+        type: string
+      profile_pic:
+        example: https://usr.co.id/img.jpg
+        type: string
+      username:
+        example: username123
+        type: string
+    required:
+    - first_name
+    - last_name
+    - password
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /api/admin/users:
+    get:
+      description: Get a list of user registered in the system.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Get all user.
+      tags:
+      - admin
+  /api/admin/users/:user_id:
+    delete:
+      description: Delete a user by its id.
+      parameters:
+      - description: The user id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one user.
+      tags:
+      - admin
+    get:
+      description: Get a user by its id.
+      parameters:
+      - description: The user id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Get one user.
+      tags:
+      - admin
+    patch:
+      description: Update a user by its id.
+      parameters:
+      - description: The user id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: the body to update a user
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateUserInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Update one user.
+      tags:
+      - admin
+  /api/login:
+    post:
+      description: Logging in to get jwt token to access admin or user api by roles.
+      parameters:
+      - description: the body to login a user
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/LoginUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login as as user.
+      tags:
+      - user
+  /api/register:
+    post:
+      description: Creating/registering a user from public access.
+      parameters:
+      - description: the body to create a user
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ReturnSimpleUser'
+      summary: Create/Register a user.
+      tags:
+      - user
+  /api/user/details:
+    get:
+      description: Get a user its own detail.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Get detail user.
+      tags:
+      - user
+  /api/user/update:
+    get:
+      description: Update user its own data.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Update user data.
+      tags:
+      - user
+swagger: "2.0"

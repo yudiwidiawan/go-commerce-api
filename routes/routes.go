@@ -4,8 +4,12 @@ import (
 	"fp-jcc-go-2021-commerce/controllers"
 	"fp-jcc-go-2021-commerce/middlewares"
 
+	_ "fp-jcc-go-2021-commerce/docs/commerce"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func SetupRoutes(db *gorm.DB) *gin.Engine {
@@ -13,6 +17,9 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
 	})
+	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json") // The url pointing to API definition
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	// Routes
 	public := r.Group("/api")
 	public.POST("/register", controllers.CreateUser)
 	public.POST("/login", controllers.LoginUser)
