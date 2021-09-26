@@ -43,8 +43,14 @@ type UpdateProductCategories struct {
 	Category_ID         uint `json:"category_id"`
 }
 
-// GET /shop/:shop_id/products
-// Get all products in shop
+// GetShopProducts godoc
+// @Summary Get products by shop.
+// @Description Get a list of products in shop by shop id.
+// @Tags user
+// @Produce json
+// @Param shop_id path string true "The shop id"
+// @Success 200 {object} []models.Commerce_Product
+// @Router /api/user/shop/:shop_id/products [get]
 func GetShopProducts(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var products []models.Commerce_Product
@@ -58,8 +64,14 @@ func GetShopProducts(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
 
-// /products/search?:keyword
-// Search products by keyword
+// GetProductsByKeyword godoc
+// @Summary Search products by keyword.
+// @Description Get a list of products registered in the system by keyword.
+// @Tags public
+// @Produce json
+// @Param keyword query string true "The keyword for products."
+// @Success 200 {object} []models.Commerce_Product
+// @Router /api/products/search [get]
 func GetProductsByKeyword(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var products []models.Commerce_Product
@@ -71,8 +83,14 @@ func GetProductsByKeyword(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
 
-// /products/:product_id/categories
-// Get products categories
+// GetProductCategories godoc
+// @Summary Get product categories..
+// @Description Get a list of product categories by product id.
+// @Tags user
+// @Produce json
+// @Param product_id path string true "The product id."
+// @Success 200 {object} []Commerce_Product_Categories
+// @Router /api/user/products/:product_id/categories [get]
 func GetProductCategories(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var productCategories []Commerce_Product_Categories
@@ -84,8 +102,17 @@ func GetProductCategories(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": productCategories})
 }
 
-// POST /etalase/:etalase_id/product/create
-// Create new products
+// CreateProduct godoc
+// @Summary Create a product by user.
+// @Description Creating a product from user access.
+// @Tags user
+// @Param etalase_id path string true "The etalase id"
+// @Param Body body CreateProductInput true "the body to create a shop"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} models.Commerce_Product
+// @Router /api/user/etalase/:etalase_id/product/create [post]
 func CreateProduct(c *gin.Context) {
 	// Validate input
 	var input CreateProductInput
@@ -115,8 +142,16 @@ func CreateProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
 
-// POST /product/category/create
-// Add Product Category
+// CreateProductCategory godoc
+// @Summary Create a product category by user.
+// @Description Creating a product category from user access.
+// @Tags user
+// @Param Body body Commerce_Product_Categories true "the body to create a product category"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} Commerce_Product_Categories
+// @Router /api/user/product/category/create [post]
 func CreateProductCategory(c *gin.Context) {
 	// Validate input
 	var input Commerce_Product_Categories
@@ -136,8 +171,14 @@ func CreateProductCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": productCategory})
 }
 
-// GET /etalase/:etalase_id/products
-// Get all products in an etalase
+// GetProducts godoc
+// @Summary Get products by etalase id.
+// @Description Get a list of products in etalase.
+// @Tags user
+// @Produce json
+// @Param etalase_id path string true "The etalase id"
+// @Success 200 {object} []models.Commerce_Product
+// @Router /api/user/etalase/:etalase_id/products [get]
 func GetProducts(c *gin.Context) { // Get model if exist
 	var products []models.Commerce_Product
 
@@ -150,8 +191,17 @@ func GetProducts(c *gin.Context) { // Get model if exist
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
 
-// PATCH /product/:product_id
-// Update a product
+// UpdateProduct godoc
+// @Summary Update one product.
+// @Description Update a product by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param product_id path string true "The product id"
+// @Param Body body UpdateProductInput true "the body to update a product"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Product
+// @Router /api/user/product/:product_id [patch]
 func UpdateProduct(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
@@ -182,8 +232,17 @@ func UpdateProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
 
-// PATCH /product/category/:product_category_id
-// Update a product category
+// UpdateProductCategory godoc
+// @Summary Update one product category id.
+// @Description Update a product category by product category id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param product_category_id path string true "The product category id"
+// @Param Body body UpdateProductCategories true "the body to update a product category"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} UpdateProductCategories
+// @Router /api/user/product/category/:product_category_id [patch]
 func UpdateProductCategory(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
@@ -207,8 +266,16 @@ func UpdateProductCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": input})
 }
 
-// DELETE /product/:id_product
-// Delete an etalase in a shop
+// DeleteProduct godoc
+// @Summary Delete a product.
+// @Description Delete a user product by product id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param product_id path string true "The product id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/user/product/:product_id [delete]
 func DeleteProduct(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)
@@ -223,8 +290,16 @@ func DeleteProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
-// DELETE /product/category/:product_category_id
-// Delete a product category
+// DeleteProductCategory godoc
+// @Summary Delete a product category.
+// @Description Delete a user product category by product category id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param product_category_id path string true "The product category id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/user/product/category/:product_category_id [delete]
 func DeleteProductCategory(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)

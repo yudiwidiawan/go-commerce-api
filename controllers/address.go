@@ -36,8 +36,13 @@ type UpdateAddressInput struct {
 	AddressLongitude string `json:"address_longitude"`
 }
 
-// GET /addresses
-// Get all addresses
+// GetAddresses godoc
+// @Summary Get all address from user.
+// @Description Get a list of available address user.
+// @Tags user
+// @Produce json
+// @Success 200 {object} []models.Commerce_Address
+// @Router /api/user/addresses [get]
 func GetAddresses(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	user_id, _ := token.ExtractTokenID(c)
@@ -52,8 +57,16 @@ func GetAddresses(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": addresses})
 }
 
-// POST /address/create
-// Create new address
+// CreateAddress godoc
+// @Summary Create an address.
+// @Description Creating a new address user.
+// @Tags user
+// @Param Body body CreateAddressInput true "the body to create a new address"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} models.Commerce_Address
+// @Router /api/user/address/create [post]
 func CreateAddress(c *gin.Context) {
 	// Validate input
 	var input CreateAddressInput
@@ -104,8 +117,17 @@ func GetAddress(c *gin.Context) { // Get model if exist
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
 
-// PATCH /address/:address_id
-// Update an address
+// UpdateAddress godoc
+// @Summary Update an address.
+// @Description Update an address by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param address_id path string true "The address id"
+// @Param Body body UpdateAddressInput true "the body to update an address"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Address
+// @Router /api/user/address/:address_id [patch]
 func UpdateAddress(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
@@ -136,8 +158,16 @@ func UpdateAddress(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
 
-// DELETE /address/:address_id
-// Delete an address in a user
+// DeleteAddress godoc
+// @Summary Delete one address.
+// @Description Delete an address by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param address_id path string true "The address id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/user/address/:address_id [delete]
 func DeleteAddress(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)

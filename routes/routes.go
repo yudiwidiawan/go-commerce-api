@@ -17,7 +17,8 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
 	})
-	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json") // The url pointing to API definition
+
+	url := ginSwagger.URL("https://still-bayou-29365.herokuapp.com/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	// Routes
 	public := r.Group("/api")

@@ -26,8 +26,15 @@ type UpdateShopInput struct {
 	ShopPhoneNumber string `json:"shop_phone_number"`
 }
 
-// GET /shops
-// Get all shops
+// GetShops godoc
+// @Summary Get all shops.
+// @Description Get a list of shops registered in the system.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} []models.Commerce_Shop
+// @Router /api/admin/shops [get]
 func GetShops(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var shops []models.Commerce_Shop
@@ -36,6 +43,13 @@ func GetShops(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shops})
 }
 
+// GetUserShops godoc
+// @Summary Get user shop.
+// @Description Get a list user shops in the system.
+// @Tags user
+// @Produce json
+// @Success 200 {object} []models.Commerce_Shop
+// @Router /api/user/shops [get]
 func GetUserShops(c *gin.Context) {
 	user_id, _ := token.ExtractTokenID(c)
 	db := c.MustGet("db").(*gorm.DB)
@@ -48,7 +62,14 @@ func GetUserShops(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shops})
 }
 
-// /shop/search?:keyword
+// GetShopByKeyword godoc
+// @Summary Search shop by keyword.
+// @Description Get a list of shops registered in the system by keyword.
+// @Tags public
+// @Produce json
+// @Param keyword query string true "The keyword for shop."
+// @Success 200 {object} []models.Commerce_Shop
+// @Router /api/shops/search [get]
 // Search shop by keyword
 func GetShopByKeyword(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -61,8 +82,16 @@ func GetShopByKeyword(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shops})
 }
 
-// POST /shops/create
-// Create new shop
+// CreateShop godoc
+// @Summary Create a shop.
+// @Description Creating a shop from admin access.
+// @Tags admin
+// @Param Body body CreateShopInput true "the body to create a shop"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} models.Commerce_Shop
+// @Router /api/admin/shops/create [post]
 func CreateShop(c *gin.Context) {
 	// Validate input
 	var input CreateShopInput
@@ -85,6 +114,16 @@ func CreateShop(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shop})
 }
 
+// CreateShopUser godoc
+// @Summary Create a shop by user.
+// @Description Creating a shop from user access.
+// @Tags user
+// @Param Body body CreateShopInput true "the body to create a shop"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} models.Commerce_Shop
+// @Router /api/user/shops/create [post]
 func CreateShopUser(c *gin.Context) {
 	// Validate input
 	var input CreateShopInput
@@ -108,8 +147,16 @@ func CreateShopUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shop})
 }
 
-// GET /shops/:shop_id
-// Find a shop
+// FindShop godoc
+// @Summary Get one shop.
+// @Description Get a shop by its id.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @Param shop_id path string true "The shop id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Shop
+// @Router /api/admin/shops/:shop_id [get]
 func FindShop(c *gin.Context) { // Get model if exist
 	var shop models.Commerce_Shop
 
@@ -122,8 +169,15 @@ func FindShop(c *gin.Context) { // Get model if exist
 	c.JSON(http.StatusOK, gin.H{"data": shop})
 }
 
-// GET /details
-// Get Self User Shop Detail
+// ShopDetailUser godoc
+// @Summary Get detail user shop.
+// @Description Get a user shop detail.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Shop
+// @Router /api/user/shop/:shop_id [get]
 func ShopDetailUser(c *gin.Context) { // Get model if exist
 	var shop models.Commerce_Shop
 	user_id, err := token.ExtractTokenID(c)
@@ -136,8 +190,17 @@ func ShopDetailUser(c *gin.Context) { // Get model if exist
 	c.JSON(http.StatusOK, gin.H{"data": shop})
 }
 
-// PATCH /update
-// Update self shop
+// UpdateShopUser godoc
+// @Summary Update one user shop.
+// @Description Update a user shop by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param shop_id path string true "The shop id"
+// @Param Body body UpdateShopInput true "the body to update a shop"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Shop
+// @Router /api/user/shop/:shop_id [patch]
 func UpdateShopUser(c *gin.Context) {
 	user_id, _ := token.ExtractTokenID(c)
 	db := c.MustGet("db").(*gorm.DB)
@@ -166,8 +229,17 @@ func UpdateShopUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shop})
 }
 
-// PATCH /shops/:shop_id
-// Update a shop
+// UpdateShop godoc
+// @Summary Update one shop.
+// @Description Update a shop by its id.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @Param shop_id path string true "The shop id"
+// @Param Body body UpdateShopInput true "the body to update a shop"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Shop
+// @Router /api/admin/shops/:shop_id [patch]
 func UpdateShop(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
@@ -196,8 +268,16 @@ func UpdateShop(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": shop})
 }
 
-// DELETE /shops/:id
-// Delete a shop
+// DeleteShop godoc
+// @Summary Delete one shop.
+// @Description Delete a shop by its id.
+// @Tags admin
+// @Produce json
+// @Security BearerToken
+// @Param shop_id path string true "The shop id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/admin/shops/:shop_id [delete]
 func DeleteShop(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)
@@ -212,6 +292,16 @@ func DeleteShop(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
+// DeleteShopUser godoc
+// @Summary Delete one user shop.
+// @Description Delete a shop user by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param shop_id path string true "The shop id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/user/shop/:shop_id [delete]
 func DeleteShopUser(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)

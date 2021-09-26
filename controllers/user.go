@@ -102,7 +102,7 @@ func LoginUser(c *gin.Context) {
 // @Produce json
 // @Security BearerToken
 // @param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []models.Commerce_User
 // @Router /api/admin/users [get]
 func FindUsers(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -165,7 +165,7 @@ func CreateUser(c *gin.Context) {
 // @Security BearerToken
 // @Param user_id path string true "The user id"
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} models.Commerce_User
 // @Router /api/admin/users/:user_id [get]
 func FindUser(c *gin.Context) { // Get model if exist
 	var user models.Commerce_User
@@ -186,7 +186,7 @@ func FindUser(c *gin.Context) { // Get model if exist
 // @Produce json
 // @Security BearerToken
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} models.Commerce_User
 // @Router /api/user/details [get]
 func SelfDetailUser(c *gin.Context) { // Get model if exist
 	var user models.Commerce_User
@@ -207,7 +207,7 @@ func SelfDetailUser(c *gin.Context) { // Get model if exist
 // @Produce json
 // @Security BearerToken
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} models.Commerce_User
 // @Router /api/user/update [get]
 func UpdateSelfUser(c *gin.Context) {
 	user_id, err := token.ExtractTokenID(c)
@@ -259,7 +259,7 @@ func UpdateSelfUser(c *gin.Context) {
 // @Param user_id path string true "The user id"
 // @Param Body body UpdateUserInput true "the body to update a user"
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} models.Commerce_User
 // @Router /api/admin/users/:user_id [patch]
 func UpdateUser(c *gin.Context) {
 
@@ -310,7 +310,7 @@ func UpdateUser(c *gin.Context) {
 // @Security BearerToken
 // @Param user_id path string true "The user id"
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} map[string]boolean
 // @Router /api/admin/users/:user_id [delete]
 func DeleteUser(c *gin.Context) {
 	// Get model if exist

@@ -42,8 +42,16 @@ type Commerce_Cart_Product struct {
 // 	c.JSON(http.StatusOK, gin.H{"data": categories})
 // }
 
-// POST /cart/create
-// Create new cart
+// CreateCart godoc
+// @Summary Create a cart.
+// @Description Creating a new cart for user.
+// @Tags user
+// @Param Body body CreateCartInput true "the body to create a new cart"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} models.Commerce_Cart_User
+// @Router /api/user/cart/create [post]
 func CreateCart(c *gin.Context) {
 	// Validate input
 	var input CreateCartInput
@@ -65,8 +73,16 @@ func CreateCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": cart})
 }
 
-// POST /cart/add
-// Create new cart
+// AddProductCart godoc
+// @Summary Add a product to a cart.
+// @Description Adding a new product to an existing cart for user.
+// @Tags user
+// @Param Body body Commerce_Cart_Product true "the body to add a product to cart"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} Commerce_Cart_Product
+// @Router /api/user/cart/add [post]
 func AddProductCart(c *gin.Context) {
 	// Validate input
 	var input Commerce_Cart_Product
@@ -89,8 +105,17 @@ func AddProductCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": cartProduct})
 }
 
-// PATCH /cart/:cart_id
-// Update a cart
+// UpdateCart godoc
+// @Summary Update a cart.
+// @Description Update a cart by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param cart_id path string true "The cart id"
+// @Param Body body UpdateCartInput true "the body to update a cart"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} models.Commerce_Cart_User
+// @Router /api/user/cart/:cart_id [patch]
 func UpdateCart(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
@@ -115,8 +140,17 @@ func UpdateCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": cart})
 }
 
-// PATCH /cart/product/:cart_product_id
-// Update product cart
+// UpdateProductCart godoc
+// @Summary Update product in a cart.
+// @Description Updating a product in a cart by cart product id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param cart_product_id path string true "The cart product id"
+// @Param Body body Commerce_Cart_Product true "the body to update a product cart"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} Commerce_Cart_Product
+// @Router /api/user/cart/product/:cart_product_id [patch]
 func UpdateProductCart(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
@@ -138,8 +172,16 @@ func UpdateProductCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": productCart})
 }
 
-// DELETE /cart/:cart_id
-// Delete a cart
+// DeleteCart godoc
+// @Summary Delete one cart.
+// @Description Delete a cart by its id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param cart_id path string true "The cart id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/user/cart/:cart_id [delete]
 func DeleteCart(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)
@@ -157,8 +199,16 @@ func DeleteCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
-// DELETE /cart/product/:cart_product_id
-// Delete a cart
+// DeleteProductCart godoc
+// @Summary Delete a product cart.
+// @Description Delete a product cart by cart product id.
+// @Tags user
+// @Produce json
+// @Security BearerToken
+// @Param cart_product_id path string true "The cart product id"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Success 200 {object} map[string]boolean
+// @Router /api/user/cart/product/:cart_product_id [delete]
 func DeleteProductCart(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)
