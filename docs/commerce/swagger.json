@@ -587,7 +587,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "public",
+                    "admin"
                 ],
                 "summary": "Login as as user.",
                 "parameters": [
@@ -651,7 +653,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "public",
+                    "admin"
                 ],
                 "summary": "Create/Register a user.",
                 "parameters": [

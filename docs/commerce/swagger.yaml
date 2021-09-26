@@ -784,6 +784,8 @@ paths:
       summary: Login as as user.
       tags:
       - user
+      - public
+      - admin
   /api/products/search:
     get:
       description: Get a list of products registered in the system by keyword.
@@ -825,6 +827,8 @@ paths:
       summary: Create/Register a user.
       tags:
       - user
+      - public
+      - admin
   /api/shops/search:
     get:
       description: Get a list of shops registered in the system by keyword.

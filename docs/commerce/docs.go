@@ -606,7 +606,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "public",
+                    "admin"
                 ],
                 "summary": "Login as as user.",
                 "parameters": [
@@ -670,7 +672,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "public",
+                    "admin"
                 ],
                 "summary": "Create/Register a user.",
                 "parameters": [
